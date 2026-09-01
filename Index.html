@@ -3,21 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Business Helper</title>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
       background: #f4f7fb;
       color: #222;
+      min-height: 100vh;
     }
 
     header {
-      background: #173b6c;
+      background: #2563eb;
       color: white;
-      padding: 25px 20px;
       text-align: center;
+      padding: 25px 15px;
+    }
+
+    header h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
     }
 
     .container {
@@ -30,118 +46,386 @@
       background: white;
       padding: 25px;
       border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     textarea {
       width: 100%;
       min-height: 130px;
-      padding: 12px;
-      margin-top: 10px;
+      padding: 15px;
       border: 1px solid #ccc;
       border-radius: 10px;
-      box-sizing: border-box;
       font-size: 16px;
+      resize: vertical;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: #2563eb;
     }
 
     button {
       width: 100%;
       margin-top: 15px;
-      padding: 14px;
+      padding: 15px;
       border: none;
       border-radius: 10px;
-      background: #173b6c;
+      background: #2563eb;
       color: white;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: bold;
       cursor: pointer;
     }
 
     button:hover {
-      background: #0f2b50;
+      background: #1d4ed8;
     }
 
     #result {
-      margin-top: 25px;
-      padding: 20px;
-      background: #eef5ff;
-      border-radius: 12px;
       display: none;
+      margin-top: 25px;
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 5px solid #2563eb;
+    }
+
+    #result h2 {
+      margin-bottom: 15px;
+      color: #2563eb;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section h3 {
+      margin-bottom: 7px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 7px;
+    }
+
+    .example {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 13px;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Business Helper</h1>
-  <p>Find the problem. Understand it. Fix it.</p>
-</header>
+  <header>
+    <h1>Business Helper</h1>
+    <p>Identify business problems and discover practical solutions.</p>
+  </header>
 
-<div class="container">
-  <div class="card">
+  <div class="container">
 
-    <h2>What's affecting your business?</h2>
+    <div class="card">
 
-    <p>
-      Describe the main problem your business is experiencing.
-    </p>
+      <label for="problem">
+        What problem is affecting your business?
+      </label>
 
-    <textarea id="problem"
-      placeholder="Example: My customers are reducing and sales are going down..."></textarea>
+      <textarea
+        id="problem"
+        placeholder="Example: My sales are decreasing and customers are not coming back."
+      ></textarea>
 
-    <button onclick="analyzeProblem()">
-      Analyze Problem
-    </button>
+      <button onclick="analyzeProblem()">
+        Analyze Problem
+      </button>
 
-    <div id="result"></div>
+      <div id="result"></div>
+
+      <p class="example">
+        💡 Be as specific as possible. For example:
+        "My shop has many visitors but very few people buy."
+      </p>
+
+    </div>
 
   </div>
-</div>
 
-<script>
-function analyzeProblem() {
+  <footer>
+    Business Helper © 2026
+  </footer>
 
-  const problem = document.getElementById("problem").value.trim();
-  const result = document.getElementById("result");
 
-  if (problem === "") {
-    result.style.display = "block";
-    result.innerHTML = "<strong>Please describe your business problem first.</strong>";
-    return;
-  }
+  <script>
 
-  result.style.display = "block";
+    function analyzeProblem() {
 
-  result.innerHTML = `
-    <h3>Initial Business Analysis</h3>
+      const problem = document
+        .getElementById("problem")
+        .value
+        .toLowerCase()
+        .trim();
 
-    <p><strong>Your problem:</strong><br>
-    ${problem}</p>
+      const result = document.getElementById("result");
 
-    <h4>Possible causes</h4>
-    <ul>
-      <li>Changes in customer demand</li>
-      <li>Pricing or competition</li>
-      <li>Marketing challenges</li>
-      <li>Customer experience issues</li>
-      <li>Operational or financial problems</li>
-    </ul>
+      if (problem === "") {
+        result.style.display = "block";
+        result.innerHTML = `
+          <h2>Please describe your problem</h2>
+          <p>Enter a business problem first so Business Helper can analyze it.</p>
+        `;
+        return;
+      }
 
-    <h4>Recommended next steps</h4>
-    <ol>
-      <li>Identify when the problem started.</li>
-      <li>Look at your recent sales and customer records.</li>
-      <li>Ask customers for feedback.</li>
-      <li>Compare your prices and offers with competitors.</li>
-      <li>Choose one problem to solve first and track the results.</li>
-    </ol>
+      let category = "";
+      let causes = [];
+      let solutions = [];
+      let actions = [];
 
-    <p><strong>Business Helper tip:</strong>
-    Don't try to fix everything at once. Start with the problem having the biggest effect on your business.</p>
-  `;
-}
-</script>
+
+      // SALES PROBLEMS
+      if (
+        problem.includes("sales") ||
+        problem.includes("selling") ||
+        problem.includes("customers") ||
+        problem.includes("customers are not buying")
+      ) {
+
+        category = "Sales & Customers";
+
+        causes = [
+          "Your prices may not match customer expectations.",
+          "Customers may not clearly understand the value of your product.",
+          "Marketing or customer follow-up may be weak."
+        ];
+
+        solutions = [
+          "Ask customers why they are not buying.",
+          "Improve how you explain the benefits of your products.",
+          "Test different promotions instead of immediately lowering prices."
+        ];
+
+        actions = [
+          "Talk to at least 5 customers this week.",
+          "Record which products sell the most.",
+          "Try one new promotion and compare the results."
+        ];
+      }
+
+
+      // MONEY / CASH FLOW
+      else if (
+        problem.includes("money") ||
+        problem.includes("cash") ||
+        problem.includes("profit") ||
+        problem.includes("expenses") ||
+        problem.includes("cost")
+      ) {
+
+        category = "Finance & Cash Flow";
+
+        causes = [
+          "Business expenses may be too high.",
+          "Prices may not provide enough profit.",
+          "Cash may not be properly tracked."
+        ];
+
+        solutions = [
+          "Record every business expense.",
+          "Calculate the profit made on each product.",
+          "Separate business money from personal money."
+        ];
+
+        actions = [
+          "Create a simple daily income and expense record.",
+          "Review your biggest three expenses.",
+          "Calculate your profit for the last 30 days."
+        ];
+      }
+
+
+      // MARKETING
+      else if (
+        problem.includes("marketing") ||
+        problem.includes("advertising") ||
+        problem.includes("advert") ||
+        problem.includes("social media") ||
+        problem.includes("instagram") ||
+        problem.includes("facebook")
+      ) {
+
+        category = "Marketing";
+
+        causes = [
+          "Your business may not be reaching the right audience.",
+          "Your advertising message may not be clear.",
+          "You may not be consistently promoting the business."
+        ];
+
+        solutions = [
+          "Define your target customer.",
+          "Create simple content showing the problem your product solves.",
+          "Track which advertisements generate enquiries or sales."
+        ];
+
+        actions = [
+          "Define your ideal customer.",
+          "Create 3 useful posts this week.",
+          "Measure enquiries and sales from each promotion."
+        ];
+      }
+
+
+      // STOCK / INVENTORY
+      else if (
+        problem.includes("stock") ||
+        problem.includes("inventory") ||
+        problem.includes("products") ||
+        problem.includes("out of stock")
+      ) {
+
+        category = "Stock & Inventory";
+
+        causes = [
+          "Fast-selling products may not be monitored closely.",
+          "Too much money may be tied up in slow-moving products.",
+          "Stock records may not be accurate."
+        ];
+
+        solutions = [
+          "Track products entering and leaving the business.",
+          "Identify your fastest and slowest-selling products.",
+          "Reduce unnecessary purchases of slow-moving stock."
+        ];
+
+        actions = [
+          "Count your current stock.",
+          "Identify your top 5 best-selling products.",
+          "Create a simple weekly stock record."
+        ];
+      }
+
+
+      // STAFF
+      else if (
+        problem.includes("employee") ||
+        problem.includes("employees") ||
+        problem.includes("staff") ||
+        problem.includes("worker")
+      ) {
+
+        category = "Employees & Operations";
+
+        causes = [
+          "Employees may not have clearly defined responsibilities.",
+          "Communication may be weak.",
+          "Performance expectations may not be clear."
+        ];
+
+        solutions = [
+          "Give each employee clear responsibilities.",
+          "Set simple measurable goals.",
+          "Hold short regular team meetings."
+        ];
+
+        actions = [
+          "Write down each person's main responsibility.",
+          "Set 1–3 weekly goals.",
+          "Review progress at the end of each week."
+        ];
+      }
+
+
+      // DEFAULT
+      else {
+
+        category = "General Business Problem";
+
+        causes = [
+          "The exact cause of the problem may not yet be clear.",
+          "The business may need better records and customer feedback.",
+          "There may be several factors affecting the business at the same time."
+        ];
+
+        solutions = [
+          "Collect information before making a major decision.",
+          "Talk to customers and identify their main complaints.",
+          "Track sales, expenses and customer behaviour."
+        ];
+
+        actions = [
+          "Write down the problem clearly.",
+          "Collect information for the next 7 days.",
+          "Choose one small change and measure its results."
+        ];
+      }
+
+
+      result.style.display = "block";
+
+      result.innerHTML = `
+
+        <h2>Business Analysis</h2>
+
+        <div class="section">
+          <h3>📌 Problem Category</h3>
+          <p>${category}</p>
+        </div>
+
+        <div class="section">
+          <h3>🔎 Possible Causes</h3>
+          <ul>
+            ${causes.map(cause => `<li>${cause}</li>`).join("")}
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>💡 Recommended Solutions</h3>
+          <ul>
+            ${solutions.map(solution => `<li>${solution}</li>`).join("")}
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>🚀 What To Do Next</h3>
+          <ul>
+            ${actions.map(action => `<li>${action}</li>`).join("")}
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>⚠️ Important</h3>
+          <p>
+            This is a general business analysis. Use your actual
+            sales, customer and financial data before making major
+            business decisions.
+          </p>
+        </div>
+
+      `;
+
+      result.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+  </script>
 
 </body>
 </html>
