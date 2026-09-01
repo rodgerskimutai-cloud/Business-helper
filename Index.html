@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Helper</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #173b6c;
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      padding: 12px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #173b6c;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0f2b50;
+    }
+
+    #result {
+      margin-top: 25px;
+      padding: 20px;
+      background: #eef5ff;
+      border-radius: 12px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Business Helper</h1>
+  <p>Find the problem. Understand it. Fix it.</p>
+</header>
+
+<div class="container">
+  <div class="card">
+
+    <h2>What's affecting your business?</h2>
+
+    <p>
+      Describe the main problem your business is experiencing.
+    </p>
+
+    <textarea id="problem"
+      placeholder="Example: My customers are reducing and sales are going down..."></textarea>
+
+    <button onclick="analyzeProblem()">
+      Analyze Problem
+    </button>
+
+    <div id="result"></div>
+
+  </div>
+</div>
+
+<script>
+function analyzeProblem() {
+
+  const problem = document.getElementById("problem").value.trim();
+  const result = document.getElementById("result");
+
+  if (problem === "") {
+    result.style.display = "block";
+    result.innerHTML = "<strong>Please describe your business problem first.</strong>";
+    return;
+  }
+
+  result.style.display = "block";
+
+  result.innerHTML = `
+    <h3>Initial Business Analysis</h3>
+
+    <p><strong>Your problem:</strong><br>
+    ${problem}</p>
+
+    <h4>Possible causes</h4>
+    <ul>
+      <li>Changes in customer demand</li>
+      <li>Pricing or competition</li>
+      <li>Marketing challenges</li>
+      <li>Customer experience issues</li>
+      <li>Operational or financial problems</li>
+    </ul>
+
+    <h4>Recommended next steps</h4>
+    <ol>
+      <li>Identify when the problem started.</li>
+      <li>Look at your recent sales and customer records.</li>
+      <li>Ask customers for feedback.</li>
+      <li>Compare your prices and offers with competitors.</li>
+      <li>Choose one problem to solve first and track the results.</li>
+    </ol>
+
+    <p><strong>Business Helper tip:</strong>
+    Don't try to fix everything at once. Start with the problem having the biggest effect on your business.</p>
+  `;
+}
+</script>
+
+</body>
+</html>
