@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Helper - Budget Tracker</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f4f6f8;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #222;
+            color: white;
+        }
+
+        .summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        .expense {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>💰 Business Budget Tracker</h1>
+
+    <input type="number" id="income" placeholder="Enter total income">
+
+    <input type="number" id="expense" placeholder="Enter an expense">
+
+    <input type="text" id="expenseName" placeholder="Expense name">
+
+    <button onclick="addExpense()">Add Expense</button>
+
+    <div id="expenseList"></div>
+
+    <div class="summary">
+        <h2>Budget Summary</h2>
+
+        <p>Total Income: KSh <span id="totalIncome">0</span></p>
+
+        <p>Total Expenses: KSh <span id="totalExpenses">0</span></p>
+
+        <p>Remaining Balance: KSh <span id="balance">0</span></p>
+
+        <p>Profit Margin: <span id="profitMargin">0</span>%</p>
+    </div>
+
+</div>
+
+<script>
+
+let totalExpenses = 0;
+
+function addExpense() {
+
+    const incomeInput = document.getElementById("income");
+    const expenseInput = document.getElementById("expense");
+    const expenseNameInput = document.getElementById("expenseName");
+
+    const income = Number(incomeInput.value);
+    const expense = Number(expenseInput.value);
+    const expenseName = expenseNameInput.value;
+
+    if (income <= 0 || expense <= 0 || expenseName === "") {
+        alert("Please enter income, expense and expense name.");
+        return;
+    }
+
+    totalExpenses += expense;
+
+    document.getElementById("totalIncome").textContent =
+        income.toLocaleString();
+
+    document.getElementById("totalExpenses").textContent =
+        totalExpenses.toLocaleString();
+
+    const balance = income - totalExpenses;
+
+    document.getElementById("balance").textContent =
+        balance.toLocaleString();
+
+    let margin = (balance / income) * 100;
+
+    if (margin < 0) {
+        margin = 0;
+    }
+
+    document.getElementById("profitMargin").textContent =
+        margin.toFixed(2);
+
+    const expenseList = document.getElementById("expenseList");
+
+    const expenseItem = document.createElement("div");
+
+    expenseItem.className = "expense";
+
+    expenseItem.innerHTML =
+        `<span>${expenseName}</span>
+         <span>KSh ${expense.toLocaleString()}</span>`;
+
+    expenseList.appendChild(expenseItem);
+
+    expenseInput.value = "";
+    expenseNameInput.value = "";
+}
+
+</script>
+
+</body>
+</html>
