@@ -1,174 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Helper</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Helper</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f7fb;
-            color: #222;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-        header {
-            background: #1f4e79;
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
+    body {
+      background: #f4f7fb;
+      color: #222;
+      line-height: 1.6;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 20px;
-        }
+    header {
+      background: #0d6efd;
+      color: white;
+      padding: 25px 15px;
+      text-align: center;
+    }
 
-        .card {
-            background: white;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
+    header h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
 
-        textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 12px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-        }
+    header p {
+      font-size: 16px;
+    }
 
-        button {
-            margin-top: 15px;
-            padding: 12px 20px;
-            background: #1f4e79;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
 
-        button:hover {
-            background: #163a5c;
-        }
+    .card {
+      background: white;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
 
-        #result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #eef5ff;
-            border-radius: 8px;
-            display: none;
-        }
+    h2 {
+      margin-bottom: 15px;
+      color: #0d6efd;
+    }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-    </style>
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 7px;
+      background: #0d6efd;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #084298;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #eef5ff;
+      border-left: 5px solid #0d6efd;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .budget-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .budget-box {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .budget-box h3 {
+      margin-bottom: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: #222;
+      color: white;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <header>
     <h1>Business Helper</h1>
-    <p>Identify problems. Understand causes. Find practical solutions.</p>
-</header>
+    <p>Simple tools to help small businesses make better decisions.</p>
+  </header>
 
-<div class="container">
+  <div class="container">
 
+    <!-- Business Analyzer -->
     <div class="card">
-        <h2>Business Problem Analyzer</h2>
+      <h2>Business Problem Analyzer</h2>
 
-        <p>
-            Describe a problem affecting your business below.
-        </p>
+      <label for="businessName">Business Name</label>
+      <input type="text" id="businessName" placeholder="Enter your business name">
 
-        <textarea id="problem"
-            placeholder="Example: My sales have decreased recently..."></textarea>
+      <label for="problem">What problem is affecting your business?</label>
+      <textarea id="problem" placeholder="Example: My sales are decreasing..."></textarea>
 
-        <button onclick="analyzeProblem()">Analyze Problem</button>
+      <button onclick="analyzeBusiness()">Analyze Problem</button>
 
-        <div id="result"></div>
+      <div id="analysisResult" class="result"></div>
     </div>
 
+    <!-- Budget Tracker -->
     <div class="card">
-        <h2>Budget Tracker</h2>
+      <h2>Budget Tracker</h2>
 
-        <p>
-            Track your business income and expenses.
-        </p>
+      <div class="budget-grid">
 
-        <button onclick="openBudgetTracker()">
-            Open Budget Tracker
-        </button>
+        <div class="budget-box">
+          <h3>Income</h3>
+          <input type="number" id="income" placeholder="0">
+        </div>
+
+        <div class="budget-box">
+          <h3>Expenses</h3>
+          <input type="number" id="expenses" placeholder="0">
+        </div>
+
+        <div class="budget-box">
+          <h3>Profit</h3>
+          <p id="profit">KES 0</p>
+        </div>
+
+      </div>
+
+      <button onclick="calculateBudget()">Calculate Budget</button>
+
+      <div id="budgetResult" class="result"></div>
     </div>
 
+    <!-- Market Analysis -->
     <div class="card">
-        <h2>Market Data Analysis</h2>
+      <h2>Market Analysis</h2>
 
-        <p>
-            Analyze market information and make better business decisions.
-        </p>
+      <label for="product">Product or Service</label>
+      <input type="text" id="product" placeholder="Example: Clothes, food, salon services">
 
-        <button onclick="openMarketAnalysis()">
-            Market Analysis
-        </button>
+      <label for="customers">Target Customers</label>
+      <input type="text" id="customers" placeholder="Example: University students">
+
+      <button onclick="analyzeMarket()">Analyze Market</button>
+
+      <div id="marketResult" class="result"></div>
     </div>
 
-</div>
+  </div>
 
-<footer>
-    <p>© 2026 Business Helper</p>
-</footer>
-
-<script>
-
-function analyzeProblem() {
-
-    const problem = document.getElementById("problem").value.trim();
-    const result = document.getElementById("result");
-
-    if (problem === "") {
-        result.style.display = "block";
-        result.innerHTML = "Please describe your business problem first.";
-        return;
-    }
-
-    result.style.display = "block";
-
-    result.innerHTML = `
-        <h3>Initial Analysis</h3>
-        <p><strong>Problem identified:</strong></p>
-        <p>${problem}</p>
-
-        <h3>Recommended approach</h3>
-        <ol>
-            <li>Identify when the problem started.</li>
-            <li>Look for the main causes.</li>
-            <li>Check your sales, costs and customer feedback.</li>
-            <li>Choose a practical solution.</li>
-            <li>Track the results after making changes.</li>
-        </ol>
-    `;
-}
-
-function openBudgetTracker() {
-    alert("Budget Tracker coming next.");
-}
-
-function openMarketAnalysis() {
-    alert("Market Data Analysis coming next.");
-}
-
-</script>
-
-</body>
-</html>
+  <footer>
+    <p>
