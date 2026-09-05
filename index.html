@@ -126,7 +126,239 @@
     }
   </style>
 </head>
+<script>
+function analyzeBusiness() {
+  const problem = document.getElementById("problem").value.trim().toLowerCase();
+  const businessName = document.getElementById("businessName").value.trim();
+  const result = document.getElementById("analysisResult");
 
+  if (!problem) {
+    result.style.display = "block";
+    result.innerHTML = "<strong>Please describe your business problem first.</strong>";
+    return;
+  }
+
+  let diagnosis = "General business performance problem";
+  let causes = [
+    "The business may not be tracking the main cause of the problem.",
+    "Several factors such as costs, customers, competition or marketing may be involved."
+  ];
+
+  let actions = [
+    "Track sales, expenses and customers for the next few weeks.",
+    "Identify the biggest measurable cause.",
+    "Test one solution and measure whether the situation improves."
+  ];
+
+  let priority = "Medium";
+
+  if (/sales|selling|customers.*drop|customers.*decreas|customers.*fall|few customers/.test(problem)) {
+    diagnosis = "Declining sales or customer demand";
+    causes = [
+      "Customers may be buying less.",
+      "Marketing may not be reaching the right people.",
+      "Competition, pricing or product quality may be affecting sales."
+    ];
+    actions = [
+      "Compare current sales with previous weeks.",
+      "Ask customers why they are buying less.",
+      "Compare your prices and products with competitors.",
+      "Test a targeted promotion and measure the results."
+    ];
+    priority = "High";
+
+  } else if (/profit|loss|not making money|little profit|low margin/.test(problem)) {
+    diagnosis = "Low profitability";
+    causes = [
+      "Business expenses may be too high.",
+      "Products or services may be underpriced.",
+      "Some products may have very small profit margins."
+    ];
+    actions = [
+      "Calculate profit for each major product or service.",
+      "List all business expenses.",
+      "Reduce unnecessary costs.",
+      "Review prices and supplier costs."
+    ];
+    priority = "High";
+
+  } else if (/expense|expenses|cost|costs|spending/.test(problem)) {
+    diagnosis = "High or poorly controlled expenses";
+    causes = [
+      "Some expenses may not be necessary.",
+      "Supplier or operating costs may be too high.",
+      "The business may not be monitoring spending regularly."
+    ];
+    actions = [
+      "List every expense from the last month.",
+      "Separate essential and non-essential expenses.",
+      "Look for cheaper supplier options.",
+      "Create a weekly spending limit."
+    ];
+    priority = "High";
+
+  } else if (/stock|inventory|out of stock|unsold/.test(problem)) {
+    diagnosis = "Inventory management problem";
+    causes = [
+      "Too much money may be tied up in slow-moving stock.",
+      "Popular products may be running out.",
+      "Purchasing decisions may not be based on sales data."
+    ];
+    actions = [
+      "Identify your fastest and slowest-selling products.",
+      "Set minimum stock levels.",
+      "Reduce purchases of consistently slow-moving products.",
+      "Review stock every week."
+    ];
+    priority = "Medium";
+
+  } else if (/marketing|advertising|advertisement|promotion|visibility/.test(problem)) {
+    diagnosis = "Marketing and customer-reach problem";
+    causes = [
+      "Potential customers may not know about the business.",
+      "The marketing message may be unclear.",
+      "The business may be using the wrong marketing channels."
+    ];
+    actions = [
+      "Identify your main target customers.",
+      "Find where those customers spend time.",
+      "Test different marketing messages.",
+      "Track which marketing method produces sales."
+    ];
+    priority = "Medium";
+
+  } else if (/price|pricing|expensive|cheap/.test(problem)) {
+    diagnosis = "Pricing problem";
+    causes = [
+      "The price may not cover costs properly.",
+      "Customers may not see enough value at the current price.",
+      "Competitors may offer a different price or value."
+    ];
+    actions = [
+      "Calculate the full cost of your product or service.",
+      "Compare competitor prices.",
+      "Test a different price with a small group.",
+      "Improve the value offered instead of only lowering prices."
+    ];
+    priority = "Medium";
+
+  } else if (/competitor|competition|competitors/.test(problem)) {
+    diagnosis = "Competitive pressure";
+    causes = [
+      "Competitors may have better prices or products.",
+      "Competitors may have stronger marketing.",
+      "Your business advantage may not be clear."
+    ];
+    actions = [
+      "Compare 3 competitors.",
+      "Compare their prices, products and customer service.",
+      "Identify one thing your business can do better.",
+      "Make that advantage clear to customers."
+    ];
+    priority = "Medium";
+
+  } else if (/cash|cashflow|cash flow|money shortage/.test(problem)) {
+    diagnosis = "Cash-flow problem";
+    causes = [
+      "Money may be leaving the business faster than it comes in.",
+      "Too much money may be tied up in stock.",
+      "Customers may be paying late."
+    ];
+    actions = [
+      "Track money coming in and going out every week.",
+      "Reduce unnecessary purchases.",
+      "Improve collection of money owed to the business.",
+      "Create a short-term cash-flow plan."
+    ];
+    priority = "High";
+  }
+
+  result.style.display = "block";
+
+  result.innerHTML = `
+    <h3>Business Analysis${businessName ? " — " + businessName : ""}</h3>
+
+    <p><strong>Likely Problem:</strong><br>
+    ${diagnosis}</p>
+
+    <p><strong>Possible Causes:</strong></p>
+    <ul>
+      ${causes.map(cause => `<li>${cause}</li>`).join("")}
+    </ul>
+
+    <p><strong>Recommended Actions:</strong></p>
+    <ol>
+      ${actions.map(action => `<li>${action}</li>`).join("")}
+    </ol>
+
+    <p><strong>Priority:</strong> ${priority}</p>
+
+    <p><small>
+    This is a rule-based business assessment. It provides guidance and is not a guaranteed diagnosis.
+    </small></p>
+  `;
+}
+
+
+function calculateBudget() {
+  const income = Number(document.getElementById("income").value) || 0;
+  const expenses = Number(document.getElementById("expenses").value) || 0;
+  const profit = income - expenses;
+
+  document.getElementById("profit").textContent =
+    "KES " + profit.toLocaleString();
+
+  const result = document.getElementById("budgetResult");
+  result.style.display = "block";
+
+  if (profit > 0) {
+    result.innerHTML =
+      "<strong>Positive:</strong> Your income is higher than your expenses by KES " +
+      profit.toLocaleString() + ".";
+  } else if (profit < 0) {
+    result.innerHTML =
+      "<strong>Warning:</strong> Your expenses are higher than your income by KES " +
+      Math.abs(profit).toLocaleString() + ".";
+  } else {
+    result.innerHTML =
+      "<strong>Break-even:</strong> Your income and expenses are equal.";
+  }
+}
+
+
+function analyzeMarket() {
+  const product = document.getElementById("product").value.trim();
+  const customers = document.getElementById("customers").value.trim();
+  const result = document.getElementById("marketResult");
+
+  if (!product || !customers) {
+    result.style.display = "block";
+    result.innerHTML =
+      "<strong>Please enter the product/service and target customers.</strong>";
+    return;
+  }
+
+  result.style.display = "block";
+
+  result.innerHTML = `
+    <h3>Market Analysis</h3>
+
+    <p><strong>Product/Service:</strong> ${product}</p>
+
+    <p><strong>Target Customers:</strong> ${customers}</p>
+
+    <p><strong>Recommended Research:</strong></p>
+
+    <ul>
+      <li>Identify the main needs of your target customers.</li>
+      <li>Compare at least 3 competitors.</li>
+      <li>Compare competitor prices and quality.</li>
+      <li>Ask potential customers what they currently use.</li>
+      <li>Test your product with a small group before investing heavily.</li>
+    </ul>
+  `;
+}
+      </script>
 <body>
 
   <header>
